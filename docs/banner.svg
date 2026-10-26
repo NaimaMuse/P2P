@@ -1,0 +1,21 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">YouSupply — Trade. Source. Grow.</title>
+  <desc id="desc">A navy and gold banner for the YouSupply B2B marketplace.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#191B2A"/><stop offset="1" stop-color="#23283C"/></linearGradient>
+    <linearGradient id="gold"><stop stop-color="#D8CAB0"/><stop offset="1" stop-color="#9A7A51"/></linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="20" fill="url(#bg)"/>
+  <circle cx="1100" cy="20" r="235" fill="none" stroke="#D8CAB0" stroke-opacity=".08"/>
+  <circle cx="1100" cy="20" r="175" fill="none" stroke="#D8CAB0" stroke-opacity=".08"/>
+  <rect x="56" y="50" width="38" height="4" rx="2" fill="url(#gold)"/>
+  <text x="56" y="91" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#D8CAB0">THE B2B MARKETPLACE</text>
+  <text x="52" y="165" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700" letter-spacing="-2" fill="#FFFEFC">YouSupply<tspan fill="#C5AC84">.</tspan></text>
+  <text x="56" y="210" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#D8CAB0">Trade. Source. Grow.</text>
+  <text x="56" y="254" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#AEB3C5">Connect with suppliers. Find your stock. Build your business.</text>
+  <g transform="translate(838 94)" fill="none" stroke="#C5AC84" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M0 37 66 0 132 37 66 75Z" fill="#2B2E40"/>
+    <path d="M0 37v78l66 38 66-38V37M66 75v78M33 19l66 37v28"/>
+    <path d="m88 125 37 21 66-38V70l-59-34" stroke-opacity=".3"/>
+  </g>
+</svg>

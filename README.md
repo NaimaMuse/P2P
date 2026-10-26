@@ -1,57 +1,43 @@
-﻿<div align="center">
+﻿![YouSupply — Trade. Source. Grow.](docs/banner.svg)
 
-<img src="frontend/src/assets/logo.png" alt="YouSupply" width="150" />
+<p align="center">
+  <strong>A simpler way to source, sell, and grow.</strong><br />
+  Wholesale discovery and ordering for buyers and suppliers.
+</p>
 
-# YouSupply
-
-### Trade · Source · Grow
-
-**Your next great business connection starts here.**
-
-A B2B marketplace that brings product discovery, wholesale ordering,<br />
-and supplier management into one connected experience.
-
-**React + Vite** &nbsp; / &nbsp; **Express** &nbsp; / &nbsp; **MongoDB**
-
-[Get started](#get-started) · [Explore features](#marketplace-at-a-glance) · [Developer guide](#developer-guide) · [Troubleshooting](#troubleshooting)
-
-<br />
-
-<img src="frontend/src/assets/hero.png" alt="YouSupply marketplace brand artwork" width="800" />
-
-<br />
-
-**Discover products → Build your cart → Review your order → Track fulfillment**
-
-</div>
+<p align="center">
+  <a href="#overview">Overview</a> &nbsp; · &nbsp;
+  <a href="#get-started">Quick start</a> &nbsp; · &nbsp;
+  <a href="#development">Development</a> &nbsp; · &nbsp;
+  <a href="#troubleshooting">Troubleshooting</a>
+</p>
 
 ---
 
-## Small businesses. Bigger possibilities.
+## Overview
 
-Finding stock should feel straightforward. YouSupply helps retailers and business buyers browse products, compare prices and minimum quantities, and order from suppliers in one place. Suppliers get tools to publish listings, manage inventory, and handle incoming orders; administrators oversee marketplace activity.
+YouSupply brings business buyers and suppliers together in one marketplace. Discover products across categories, see prices and order minimums upfront, and manage purchases from checkout to fulfillment.
 
-> **Project status: MVP in development.** The repository includes buyer, supplier, and administrator workflows. The sections below describe the code's capabilities; they are not a claim of production readiness.
+**Status:** MVP in development &nbsp; · &nbsp; **Stack:** React / Vite / Express / MongoDB
 
-## Marketplace at a glance
+### One marketplace. Three workspaces.
 
-| 🛍️ For buyers | 📦 For suppliers | 🛠️ For administrators |
+| Buyers | Suppliers | Administrators |
 | :--- | :--- | :--- |
-| Browse categories and search products | Manage a supplier profile | Manage user account status |
-| View prices, stock, and order minimums | Create and update product listings | Review supplier verification |
-| Manage a cart and delivery details | Upload product images and manage stock | Manage categories and moderate listings |
-| Review and accept a purchase agreement | Review incoming orders | Oversee marketplace orders |
-| View orders and receive notifications | Update item fulfillment status | Control role-based access |
+| Discover and compare products | Publish and update listings | Review supplier applications |
+| Build a cart and place orders | Manage prices and inventory | Manage accounts and categories |
+| Track purchases and notifications | Process incoming orders | Oversee products and orders |
 
-### A catalog for everyday business
+### From discovery to delivery
 
-Electronics · Clothing & fashion · Shoes · Beauty & personal care · Home & kitchen · Bags & accessories · Groceries · Sports & fitness · Office & stationery · Toys & kids · Automotive · Other products
+**01 Browse** → **02 Add to cart** → **03 Review & order** → **04 Track fulfillment**
 
-Listings support **Wholesale** and **Single Item** selling types, with minimum quantities and stock checks enforced during ordering. Checkout checks the reviewed total against current prices and uses database transactions to create orders and update inventory.
+- **Flexible buying:** wholesale and single-item listings with minimum order quantities.
+- **Inventory checks:** checkout validates stock and current prices before creating an order.
+- **Order visibility:** purchase agreements, order history, and item fulfillment updates.
+- **Multiple categories:** fashion, electronics, beauty, home, groceries, and more.
 
-### Payments, clearly explained
-
-Checkout supports **Cash on Delivery**, **Zaad demo**, and **eDahab demo**. Demo payment options simulate a payment flow and do not transfer money. Live payment integration remains future work.
+> **Payments:** Cash on Delivery is supported alongside Zaad and eDahab demo flows. Demo payments do not transfer money.
 
 ## Get started
 
@@ -176,56 +162,7 @@ The health endpoint should return:
 
 Public registration supports buyer and supplier roles. Administrator access requires an existing administrator account; it cannot be selected through public registration. A new database needs categories and approved supplier listings before you can exercise the full shopping flow.
 
-## Developer guide
-
-### Architecture
-
-```text
-React + Vite
-     |
-     | HTTP / JSON + JWT authentication
-     v
-Express REST API
-     |
-     v
-Mongoose models
-     |
-     v
-MongoDB replica set / sharded deployment
-```
-
-The frontend uses React Router, Axios, plain CSS, and Lucide icons. The backend uses Express, Mongoose, JWT, and bcryptjs.
-
-### Repository map
-
-```text
-P2P/
-|-- frontend/
-|   |-- public/          # Catalog images, icons, and placeholders
-|   |-- src/
-|   |   |-- assets/      # Brand artwork and product imagery
-|   |   |-- components/  # Shared navigation and UI components
-|   |   |-- context/     # Authentication, cart, and catalog state
-|   |   |-- data/        # Catalog data and selling-type helpers
-|   |   |-- pages/       # Shop, checkout, orders, and dashboards
-|   |   |-- services/    # Axios API client
-|   |   |-- App.jsx      # Application routes
-|   |   `-- App.css      # Application styling
-|   |-- tests/           # Playwright browser tests
-|   `-- .env.example
-|-- backend/
-|   |-- config/          # Database connection
-|   |-- controllers/     # Request handling and business logic
-|   |-- middleware/      # Authentication, roles, images, and errors
-|   |-- models/          # Mongoose schemas
-|   |-- routes/          # API routes
-|   |-- scripts/         # Local MongoDB replica set helper
-|   |-- tests/           # Node.js API and authentication tests
-|   |-- utils/           # Shared helpers and purchase agreement
-|   |-- server.js        # Express app and server startup
-|   `-- .env.example
-`-- README.md
-```
+## Development
 
 ### Useful commands
 
@@ -247,6 +184,9 @@ Run each command from the directory shown.
 
 For browser tests, install Chromium once from `frontend` with `npx playwright install chromium`. The standard Playwright configuration starts or reuses a frontend server at `http://127.0.0.1:5173`; live registration tests also require the API and database to be running.
 
+<details>
+<summary><strong>API reference</strong></summary>
+
 ### API entry points
 
 All paths below are relative to `/api`. Individual routes enforce their own authentication and role requirements.
@@ -263,6 +203,8 @@ All paths below are relative to `/api`. Individual routes enforce their own auth
 
 Start exploring in [backend/server.js](backend/server.js), [frontend/src/App.jsx](frontend/src/App.jsx), and [frontend/src/services/api.js](frontend/src/services/api.js).
 
+</details>
+
 ## Troubleshooting
 
 | Symptom | What to check |
@@ -276,29 +218,13 @@ Start exploring in [backend/server.js](backend/server.js), [frontend/src/App.jsx
 | Supplier cannot publish a product | Check that the supplier profile has been approved by an administrator. |
 | Catalog is empty | Add categories and active products from approved suppliers; a fresh database has no listings. |
 
-## Brand palette
+## Roadmap
 
-| Color | Hex | Role |
-| :--- | :--- | :--- |
-| Deep Midnight Navy | `#191B2A` | Primary brand color |
-| Soft Ivory White | `#FFFEFC` | Light background |
-| Classic Navy Blue | `#23283C` | Secondary dark surfaces |
-| Champagne Gold | `#9A7A51` | Highlights and accents |
-| Warm Beige | `#D8CAB0` | Warm surfaces and borders |
-
-## What's next
-
-- Expand end-to-end coverage of the complete buyer and supplier journey.
-- Refine mobile layouts and product image consistency.
-- Integrate a live payment provider after selecting a provider.
-- Add production deployment configuration and monitoring.
+- [ ] Expand end-to-end coverage of buyer and supplier workflows.
+- [ ] Refine mobile layouts and product imagery.
+- [ ] Integrate a live payment provider.
+- [ ] Add production deployment configuration and monitoring.
 
 ---
 
-<div align="center">
-
-**YouSupply** · Built for businesses ready to grow.
-
-[Back to top](#yousupply)
-
-</div>
+<p align="center"><strong>YouSupply</strong> &nbsp; · &nbsp; Trade. Source. Grow.<br /><a href="#">Back to top ↑</a></p>
