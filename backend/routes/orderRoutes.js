@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import * as c from '../controllers/orderController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { roles } from '../middleware/roleMiddleware.js';
+const router = Router();
+router.get('/agreement', c.getAgreement);
+router.use(protect);
+router.post('/', roles('buyer'), c.createOrder); router.get('/my-orders', roles('buyer'), c.myOrders);
+router.get('/:id', c.getOrder); router.patch('/:id/fulfillment', roles('supplier'), c.fulfillment);
+export default router;

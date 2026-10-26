@@ -1,0 +1,43 @@
+import { test, expect } from '@playwright/test';
+
+test('admin management pages search, filter, and fit mobile screens', async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('p2p-token', 'admin-test'));
+  const categories = [{ _id: 'cat', name: 'Clothing', description: 'Clothing essentials' }, { _id: 'beauty', name: 'Beauty', description: 'Beauty essentials' }];
+  const suppliers = [{ _id: 'shop1', companyName: 'Cloth Brand', verificationStatus: 'pending', user: { email: 'cloth@example.com' } }, { _id: 'shop2', companyName: 'Beauty Shop', verificationStatus: 'approved', user: { email: 'beauty@example.com' } }];
+  const products = [{ _id: 'p1', name: 'Cotton shirt', price: 10, stockQuantity: 30, isActive: true, category: categories[0], supplier: suppliers[0], images: [] }, { _id: 'p2', name: 'Face cream', price: 20, stockQuantity: 50, isActive: false, category: categories[1], supplier: suppliers[1], images: [] }];
+  const orders = [{ _id: 'order-pending', totalAmount: 30, orderStatus: 'pending', paymentStatus: 'pending', paymentMethod: 'zaad_demo', createdAt: '2026-10-22T10:00:00Z', deliveryAddress: 'Buyer shop, Hargeisa', items: [{ _id: 'item1', productName: 'Cotton shirt', quantity: 3, unitPrice: 10, subtotal: 30, commissionAmount: 0.6, supplierNetAmount: 29.4, fulfillmentStatus: 'pending' }] }, { _id: 'order-delivered', totalAmount: 20, orderStatus: 'delivered', deliveryAddress: 'Other shop', items: [] }];
+  await page.route('**/api/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    if (path === '/api/auth/me') return route.fulfill({ json: { success: true, data: { _id: 'admin', role: 'admin', name: 'Admin' } } });
+    if (path === '/api/categories') return route.fulfill({ json: { success: true, data: categories } });
+    const items = path === '/api/admin/suppliers' ? suppliers : path === '/api/admin/products' ? products : path === '/api/admin/orders' ? orders : [];
+    return route.fulfill({ json: { success: true, data: { items, pagination: { pages: 1 } } } });
+  });
+  await page.goto('/admin/dashboard');
+  await page.getByRole('button', { name: 'Suppliers', exact: true }).click();
+  await page.getByLabel('Filter suppliers by status').selectOption('pending');
+  await expect(page.locator('tbody > tr')).toHaveCount(1);
+  await page.getByLabel('Search suppliers').fill('cloth@example.com');
+  await expect(page.locator('tbody')).toContainText('Cloth Brand');
+  await page.screenshot({ path: 'test-results/admin-suppliers-redesign.png', fullPage: true });
+  await page.getByRole('button', { name: 'Products', exact: true }).click();
+  await expect(page.locator('.management-product-cell img')).toHaveCount(2);
+  await page.getByLabel('Filter products by status').selectOption('inactive');
+  await expect(page.locator('tbody > tr')).toHaveCount(1);
+  await expect(page.locator('tbody')).toContainText('Face cream');
+  await page.getByRole('button', { name: 'Categories', exact: true }).click();
+  await page.getByLabel('Search categories').fill('Clothing');
+  await expect(page.locator('tbody > tr')).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Edit Clothing', exact: true })).toBeVisible();
+  expect(await page.getByLabel('Category name', { exact: true }).evaluate(element => element.getBoundingClientRect().width)).toBeGreaterThan(200);
+  await page.screenshot({ path: 'test-results/admin-category-form-fixed.png', fullPage: true });
+  await page.getByRole('button', { name: 'Orders', exact: true }).click();
+  await page.getByLabel('Filter orders by status').selectOption('pending');
+  await expect(page.locator('.admin-order-card')).toHaveCount(1);
+  await page.getByLabel('Search orders').fill('Cotton shirt');
+  await expect(page.locator('.admin-order-card')).toContainText('Net earnings: $29.40');
+  await page.screenshot({ path: 'test-results/admin-orders-redesign.png', fullPage: true });
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.screenshot({ path: 'test-results/admin-categories-mobile.png', fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
